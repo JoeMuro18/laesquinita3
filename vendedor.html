@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sección Vendedor - La Esquinita.pe</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .vendedor-header-nav {
+            padding: 15px 40px;
+            background-color: #fff;
+            border-bottom: 1px solid #eaeaea;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .vendedor-logo-main {
+            font-size: 32px;
+            font-weight: 800;
+            color: #d12c42;
+            text-decoration: none;
+            font-style: italic;
+            line-height: 1;
+        }
+        .vendedor-eslogan {
+            font-size: 14px;
+            font-weight: 700;
+            color: #000;
+            letter-spacing: 0.5px;
+            margin-top: 5px;
+        }
+        .vendedor-content-container {
+            min-height: 70vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+        .vendedor-grid-centered {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+            max-width: 1050px;
+            width: 100%;
+        }
+        .vendedor-col-formulario {
+            flex: 1;
+            max-width: 500px;
+            width: 100%;
+        }
+        .vendedor-titulo-recuadro {
+            background-color: #f1df22;
+            color: #000;
+            display: inline-block;
+            padding: 10px 25px;
+            font-size: 22px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border: 2px solid #000;
+            box-shadow: 3px 3px 0px #000;
+        }
+        .vendedor-formulario-card {
+            background-color: #fff;
+            border: 2px solid #000;
+            border-radius: 12px;
+            padding: 30px 35px;
+            box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.08);
+            text-align: left;
+        }
+        .vendedor-input-group { margin-bottom: 18px; }
+        .vendedor-input-group label {
+            display: block;
+            font-weight: 700;
+            font-size: 15px;
+            color: #111;
+            margin-bottom: 6px;
+        }
+        .vendedor-input-group label span {
+            font-size: 12px;
+            font-weight: 400;
+            color: #666;
+            display: inline-block;
+            margin-left: 3px;
+        }
+        .vendedor-input-group input {
+            width: 100%;
+            padding: 11px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            box-sizing: border-box;
+            background-color: #fafafa;
+            transition: all 0.2s ease;
+        }
+        .vendedor-input-group input:focus {
+            border-color: #d12c42;
+            background-color: #fff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(209, 44, 66, 0.1);
+        }
+        .btn-ingresar-vendedor {
+            background-color: #d12c42;
+            color: #fff;
+            border: none;
+            padding: 13px 30px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .vendedor-col-ilustracion {
+            flex: 1;
+            max-width: 450px;
+            display: flex;
+            justify-content: center;
+        }
+        .vendedor-col-ilustracion img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 4px 4px 15px rgba(0,0,0,0.1);
+            object-fit: cover;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-box {
+            background: #ffffff;
+            border: 3px solid #000000;
+            border-radius: 16px;
+            padding: 35px 40px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 8px 8px 0px #000000;
+            transform: scale(0.8);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+        .modal-icon {
+            font-size: 50px;
+            color: #2ea44f; 
+            margin-bottom: 15px;
+            animation: popIn 0.5s ease-out;
+        }
+        .modal-icon.error-icon {
+            color: #d12c42;
+        }
+        .modal-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #111;
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .modal-text {
+            font-size: 15px;
+            color: #555;
+            line-height: 1.5;
+            margin: 0 0 20px 0;
+        }
+        .modal-spinner {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(0,0,0,0.1);
+            border-radius: 50%;
+            border-top-color: #d12c42;
+            animation: spin 1s ease infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            80% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        @media (max-width: 850px) {
+            .vendedor-header-nav { align-items: center; padding: 15px 20px; }
+            .vendedor-grid-centered { flex-direction: column; gap: 40px; }
+            .vendedor-col-formulario, .vendedor-col-ilustracion { max-width: 100%; }
+            .vendedor-col-ilustracion { order: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="vendedor-header-nav">
+        <a href="index.html" class="vendedor-logo-main">La Esquinita.pe</a>
+        <div class="vendedor-eslogan">RÁPIDO-RICO-PARA TODOS</div>
+    </header>
+
+    <main class="vendedor-content-container">
+        <div class="vendedor-grid-centered">
+            <div class="vendedor-col-formulario">
+                <div class="vendedor-titulo-recuadro">Página del Vendedor</div>
+                <div class="vendedor-formulario-card">
+                    <form onsubmit="event.preventDefault(); verificarAccesoSistema();">
+                        <div class="vendedor-input-group">
+                            <label for="campoNombre">Nombre y Apellido: <span>por favor, complete los datos</span></label>
+                            <input type="text" id="campoNombre" placeholder="Ingresa tus nombres completos" required>
+                        </div>
+                        <div class="vendedor-input-group">
+                            <label for="campoDni">DNI (Documento Nacional de Identidad)</label>
+                            <input type="text" id="campoDni" pattern="[0-9]{8}" maxlength="8" placeholder="Ingresa tu DNI" required>
+                        </div>
+                        <div class="vendedor-input-group">
+                            <label for="campoCodigo">Código de acceso</label>
+                            <input type="text" id="campoCodigo" placeholder="Escribe tu código de acceso" required>
+                        </div>
+                        <div class="vendedor-input-group">
+                            <label for="campoPassword">Contraseña:</label>
+                            <input type="password" id="campoPassword" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn-ingresar-vendedor">Acceder al panel</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="vendedor-col-ilustracion">
+                <img src="personal.jpg" alt="Personal de La Esquinita">
+            </div>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="modalAcceso">
+        <div class="modal-box" id="modalBoxContent"></div>
+    </div>
+
+    <footer>
+        <div><h3>La Esquinita.pe</h3><p>Tu antojo, nuestro sabor</p></div>
+        <div><h3>Contacto</h3><p>932 925 818</p></div>
+        <div><h3>Ubicación</h3><p>Carabayllo - San José</p></div>
+        <div><p>2026 LA ESQUINITA.PE</p></div>
+    </footer>
+
+    <script>
+        function verificarAccesoSistema() {
+            const nombreIngresado = document.getElementById("campoNombre").value.trim();
+            const dniIngresado = document.getElementById("campoDni").value.trim();
+            const codigoIngresado = document.getElementById("campoCodigo").value.trim();
+            const passwordIngresado = document.getElementById("campoPassword").value.trim();
+            
+            const modal = document.getElementById("modalAcceso");
+            const modalContent = document.getElementById("modalBoxContent");
+
+            // Código de acceso común
+            const CODIGO_VALIDO = "ADMIN2026"; 
+
+            // Validación individuales de accesos
+            const accesoJoel = (nombreIngresado === "Joel Muro" && dniIngresado === "75877021" && passwordIngresado === "123456");
+            const accesoRobert = (nombreIngresado === "Robert Gomez" && dniIngresado === "71191672" && passwordIngresado === "654321");
+
+            // Comprobar que el código de acceso sea correcto y pertenezca a Joel o Robert
+            if (codigoIngresado === CODIGO_VALIDO && (accesoJoel || accesoRobert)) {
+                sessionStorage.setItem("vendedorAutenticado", "SI");
+
+                modalContent.innerHTML = `
+                    <div class="modal-icon"><i class="fa-solid fa-circle-check"></i></div>
+                    <h3 class="modal-title">Acceso Autorizado</h3>
+                    <p class="modal-text">Bienvenido de vuelta, Administrador <strong>${nombreIngresado}</strong>.<br>Iniciando entorno seguro y cargando datos...</p>
+                    <div class="modal-spinner"></div>
+                `;
+                
+                modal.classList.add("active");
+
+                setTimeout(() => {
+                    window.location.href = "pedidos-pendientes.html";
+                }, 2500);
+
+            } else {
+                modalContent.innerHTML = `
+                    <div class="modal-icon error-icon"><i class="fa-solid fa-circle-xmark"></i></div>
+                    <h3 class="modal-title" style="color:#d12c42;">Acceso Denegado</h3>
+                    <p class="modal-text">Los datos de identidad (Nombre/DNI/Contraseña) o las llaves de acceso ingresadas no coinciden con los registros únicos del administrador.</p>
+                    <button onclick="cerrarMensajeError()" class="btn-ingresar-vendedor" style="margin:0; padding:10px 20px; font-size:14px; width:auto;">Reintentar</button>
+                `;
+                modal.classList.add("active");
+            }
+        }
+
+        function cerrarMensajeError() {
+            document.getElementById("modalAcceso").classList.remove("active");
+            document.getElementById("campoPassword").value = "";
+        }
+    </script>
+</body>
+</html>

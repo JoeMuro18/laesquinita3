@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú - La Esquinita.pe</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* ===================================================
+           ESTILOS PROFESIONALES DEL MODAL DE SELECCIÓN DE CREMAS
+           =================================================== */
+        .cremas-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(3px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000; /* Asegura estar por encima de todo */
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+        .cremas-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .cremas-modal {
+            background: #fff;
+            border: 3px solid #000;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            padding: 25px;
+            box-shadow: 6px 6px 0px #000;
+            transform: scale(0.9);
+            transition: transform 0.2s ease;
+            text-align: center;
+            color: #000;
+        }
+        .cremas-overlay.active .cremas-modal {
+            transform: scale(1);
+        }
+        .modal-header-title {
+            font-size: 20px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin: 0 0 5px 0;
+        }
+        .modal-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin: 0 0 20px 0;
+            font-weight: 700;
+        }
+        .cremas-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .crema-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f9f9f9;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 11px 15px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 15px;
+            transition: all 0.15s ease;
+        }
+        .crema-option:hover {
+            background: #fffbfa;
+            border-color: #d12c42;
+        }
+        .crema-option input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #d12c42;
+            cursor: pointer;
+        }
+        .crema-option.selected {
+            background-color: #fce4d6;
+            border-color: #000;
+        }
+        .nota-delivery {
+            font-size: 12px;
+            color: #666;
+            background: #f5f5f5;
+            padding: 10px 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            line-height: 1.4;
+            text-align: left;
+        }
+        .nota-delivery i { color: #d12c42; margin-right: 4px; }
+        .btn-confirmar-cremas {
+            width: 100%;
+            background-color: #f1df22;
+            color: #000;
+            border: 2px solid #000;
+            padding: 12px;
+            border-radius: 25px;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 3px 3px 0px #000;
+            letter-spacing: 0.5px;
+        }
+        .btn-confirmar-cremas:hover { background-color: #dbca1f; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">La Esquinita.pe</a>
+                <div class="subtitulo-cliente">
+                    SECCION CLIENTES
+                </div>
+            </div>
+
+            <ul>
+                <li><a href="menu.html" class="activo">Menu</a></li>
+                <li><a href="promociones.html">Promociones</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+                <li><a href="reservas.html">Reservas</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="resenas.html">Reseñas</a></li>
+            </ul>
+
+            <div class="cart" onclick="abrirCarrito()">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span id="contador">0</span>
+            </div>
+        </nav>
+    </header>
+
+    <section class="menu-header">
+        <h1>Nuestras Delicias</h1>
+        <p>Preparado al instante y con todas tus temperas</p>
+        
+        <div class="ventajas">
+            <div class="ventaja">
+                <i class="fa-solid fa-truck-fast"></i>
+                <span>Delivery en Zonas Cercanas Autorizadas</span>
+            </div>
+            <div class="ventaja">
+                <i class="fa-solid fa-wallet"></i>
+                <span>Pagos seguros Yape-Plin</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="catalogo">
+
+        <div class="producto-card amarillo">
+            <h3>Hamburguesa</h3>
+            <img src="https://i.pinimg.com/originals/1b/17/fa/1b17faca19a5d87ea9bd6883fa1da00f.jpg" alt="Hamburguesa">
+            <div class="precio-carrito-contenedor">
+                <div class="fila-detalles">
+                    <span class="precio-texto">S/ 5</span>
+                    <select id="tipoHamburguesa" class="select-personalizado">
+                        <option value="Hamburguesa de Pollo">Pollo</option>
+                        <option value="Hamburguesa de Carne">Carne</option>
+                    </select>
+                </div>
+                <button class="btn-agregar-ancho" onclick="lanzarModalCremas('Hamburguesa')">
+                    Agregar al Carrito
+                </button>
+            </div>
+        </div>
+
+        <div class="producto-card rojo">
+            <h3>Salchipapa</h3>
+            <img src="https://tofuu.getjusto.com/orioneat-prod/xNJaE7goxPdELGZ9f-salchi.jpg" alt="Salchipapa">
+            <div class="precio-carrito-contenedor">
+                <div class="fila-detalles">
+                    <span class="precio-texto">S/ 6</span>
+                    <div class="espacio-vacio"></div>
+                </div>
+                <button class="btn-agregar-ancho" onclick="lanzarModalCremas('Salchipapa')">
+                    Agregar al Carrito
+                </button>
+            </div>
+        </div>
+
+        <div class="producto-card amarillo">
+            <h3>Alita Broster</h3>
+            <img src="https://i.ytimg.com/vi/E-dHI6oCkDY/maxresdefault.jpg" alt="Alita Broster">
+            <div class="precio-carrito-contenedor">
+                <div class="fila-detalles">
+                    <span class="precio-texto">S/ 8</span>
+                    <div class="espacio-vacio"></div>
+                </div>
+                <button class="btn-agregar-ancho" onclick="lanzarModalCremas('Alita Broster')">
+                    Agregar al Carrito
+                </button>
+            </div>
+        </div>
+
+        <div class="producto-card rojo">
+            <h3>Pierna Broster</h3>
+            <img src="https://www.lacasadelasalchipapa.com/img/menu/cuartoBroaster.jpg" alt="Pierna Broster">
+            <div class="precio-carrito-contenedor">
+                <div class="fila-detalles">
+                    <span class="precio-texto">S/ 9</span>
+                    <div class="espacio-vacio"></div>
+                </div>
+                <button class="btn-agregar-ancho" onclick="lanzarModalCremas('Pierna Broster')">
+                    Agregar al Carrito
+                </button>
+            </div>
+        </div>
+
+        <div class="producto-card amarillo">
+            <h3>Encuentro Broster</h3>
+            <img src="https://www.paulinacocina.net/wp-content/uploads/2024/01/como-hacer-pollo-broaster-Paulina-Cocina-Recetas-800x450.jpg" alt="Encuentro Broster">
+            <div class="precio-carrito-contenedor">
+                <div class="fila-detalles">
+                    <span class="precio-texto">S/ 9</span>
+                    <div class="espacio-vacio"></div>
+                </div>
+                <button class="btn-agregar-ancho" onclick="lanzarModalCremas('Encuentro Broster')">
+                    Agregar al Carrito
+                </button>
+            </div>
+        </div>
+
+        <div class="producto-card rojo">
+            <h3>Pecho Broster</h3>
+            <img src="https://3.bp.blogspot.com/-gWIpXUGAKLo/VUl6kGGvRuI/AAAAAAAAADk/2SRC4Pw4V44/s1600/5.jpg" alt="Pecho Broster">
+            <div class="precio-carrito-contenedor">
+                <div class="fila-detalles">
+                    <span class="precio-texto">S/ 10</span>
+                    <div class="espacio-vacio"></div>
+                </div>
+                <button class="btn-agregar-ancho" onclick="lanzarModalCremas('Pecho Broster')">
+                    Agregar al Carrito
+                </button>
+            </div>
+        </div>
+
+    </section>
+
+    <footer>
+        <div>
+            <h3>La Esquinita.pe</h3>
+            <p>Tu antojo, nuestro sabor</p>
+        </div>
+        <div>
+            <h3>Contacto</h3>
+            <p>932 925 818</p>
+        </div>
+        <div>
+            <h3>Ubicación</h3>
+            <p>Carabayllo - San José</p>
+        </div>
+        <div>
+            <p>&copy; 2026 LA ESQUINITA.PE</p>
+        </div>
+    </footer>
+
+    <div id="mensaje-carrito" class="mensaje-carrito">
+        Producto agregado al carrito
+    </div>
+
+    <div id="panel-carrito" class="panel-carrito">
+        <div class="carrito-header">
+            <h2>CARRITO</h2>
+            <button class="btn-minimizar" onclick="cerrarCarrito()">➖</button>
+        </div>
+
+        <div id="lista-productos">
+            <p class="carrito-vacio">No hay productos agregados</p>
+        </div>
+
+        <div class="resumen-carrito">
+            <p>Subtotal: <span id="subtotal">S/ 0.00</span></p>
+            <p>Delivery: <span>S/ 5.00</span></p>
+            <p class="total">TOTAL: <span id="total">S/ 5.00</span></p>
+            <button class="btn-pagar" onclick="abrirModalPago()">PAGAR</button>
+        </div>
+    </div>
+
+    <div id="modal-pago" class="modal-overlay" style="display: none;">
+        <div class="modal-caja-pago" style="background-color: #f1df22; color: #000; padding: 20px; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); position: relative; text-align: center; border: 2px solid #000;">
+            
+            <button onclick="cerrarModalPago()" style="position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 20px; cursor: pointer; font-weight: bold;">✕</button>
+
+            <h2 style="text-decoration: underline; margin-bottom: 5px; font-weight: bold; letter-spacing: 1px;">PAGAR</h2>
+            <h3 style="margin-top: 0; margin-bottom: 20px; font-weight: bold;">YAPE/PLIN</h3>
+
+            <!-- Interceptamos el envío directamente aquí para corregir el texto de WhatsApp de manera segura -->
+            <form id="form-final-pago" onsubmit="event.preventDefault(); interceptarYEnviarPedido();" style="display: flex; flex-direction: column; text-align: left; gap: 8px;">
+                
+                <label style="font-weight: bold; margin-bottom: -4px;">Número:</label>
+                <input type="tel" id="pagoNumero" placeholder="Ej. 917299020" style="padding: 10px; border: 2px solid #000; border-radius: 20px; width: 100%; box-sizing: border-box;" required>
+
+                <label style="font-weight: bold; margin-bottom: -4px;">Código de aprobación de compras:</label>
+                <input type="text" id="pagoCodigo" placeholder="Código de la operación" style="padding: 10px; border: 2px solid #000; border-radius: 20px; width: 100%; box-sizing: border-box;" required>
+
+                <label style="font-weight: bold; margin-bottom: -4px;">Dirección / Zona de entrega:</label>
+                <select id="pagoDireccion" onchange="verificarDistanciaDelivery()" style="padding: 10px; border: 2px solid #000; border-radius: 20px; width: 100%; box-sizing: border-box; background: white; font-weight: bold;" required>
+                    <option value="" disabled selected>-- Selecciona tu zona --</option>
+                    
+                    <!-- COBERTURA PERMITIDA MÁXIMA -->
+                    <option value="Santa Rosa">Santa Rosa</option>
+                    <option value="Nueva Juventud">Nueva Juventud</option>
+                </select>
+
+                <!-- Cuadro de Alerta Escondido -->
+                <div id="alertaDistanciaModal" style="display: none; background: #fff5f5; border: 2px solid #d12c42; color: #d12c42; padding: 10px; border-radius: 12px; font-weight: bold; font-size: 12px; line-height: 1.4; margin-top: 4px;">
+                    ⚠️ Lo sentimos, esa ubicación se encuentra fuera de nuestro límite de reparto. Solo enviamos a zonas de Santa Rosa y Nueva Juventud.
+                </div>
+
+                <label style="font-weight: bold; margin-bottom: -4px;">Dirección Exacta (Mz, Lote, Nro o Referencia):</label>
+                <input type="text" id="pagoDireccionDetalle" placeholder="Ej: Mz Z1 Lt 15 - Portón negro" style="padding: 10px; border: 2px solid #000; border-radius: 20px; width: 100%; box-sizing: border-box;" required>
+
+                <label style="font-weight: bold; margin-bottom: -4px;">Nombres y apellidos completos:</label>
+                <input type="text" id="pagoNombre" placeholder="Tu nombre completo" style="padding: 10px; border: 2px solid #000; border-radius: 20px; width: 100%; box-sizing: border-box;" required>
+
+                <!-- Botón de Envío con ID asignada para el bloqueo -->
+                <button type="submit" id="btnEnviarPagoFinal" style="background-color: #d12c42; color: white; border: 2px solid #000; padding: 12px; border-radius: 20px; font-weight: bold; cursor: pointer; margin-top: 15px; letter-spacing: 1px; width: 100%; transition: all 0.2s ease;">PAGAR</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="cremas-overlay" id="overlayCremas">
+        <div class="cremas-modal">
+            <h3 class="modal-header-title">¿Qué cremas deseas?</h3>
+            <p class="modal-subtitle" id="subtituloProducto">Personaliza tu pedido</p>
+            
+            <form id="formCremas" onsubmit="event.preventDefault(); procesarAgregadoConCremas();">
+                <div class="cremas-grid">
+                    <label class="crema-option" onclick="toggleEstiloFila(this)">
+                        <span>Kétchup</span>
+                        <input type="checkbox" name="crema" value="Kétchup">
+                    </label>
+                    <label class="crema-option" onclick="toggleEstiloFila(this)">
+                        <span>Mayonesa</span>
+                        <input type="checkbox" name="crema" value="Mayonesa">
+                    </label>
+                    <label class="crema-option" onclick="toggleEstiloFila(this)">
+                        <span>Mostaza</span>
+                        <input type="checkbox" name="crema" value="Mostaza">
+                    </label>
+                    <label class="crema-option" onclick="toggleEstiloFila(this)">
+                        <span>Ocopa</span>
+                        <input type="checkbox" name="crema" value="Ocopa">
+                    </label>
+                    <label class="crema-option" onclick="toggleEstiloFila(this)">
+                        <span>Aceituna</span>
+                        <input type="checkbox" name="crema" value="Aceituna">
+                    </label>
+                    <label class="crema-option" onclick="toggleEstiloFila(this)">
+                        <span>Tártara</span>
+                        <input type="checkbox" name="crema" value="Tártara">
+                    </label>
+                    <label class="crema-option" onclick="toggleEstiloFila(this)">
+                        <span>Ají</span>
+                        <input type="checkbox" name="crema" value="Ají">
+                    </label>
+                </div>
+
+                <div class="nota-delivery">
+                    <i class="fa-solid fa-motorcycle"></i> Las cremas se enviarán en empaques individuales separados para garantizar la máxima frescura del producto.
+                </div>
+
+                <button type="submit" class="btn-confirmar-cremas">Confirmar y Agregar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // LÓGICA INTERNA DE INTEGRACIÓN PARA EL MODAL DE CREMAS
+        let productoPendientePorAgregar = "";
+
+        function lanzarModalCremas(nombreBaseProducto) {
+            if(nombreBaseProducto === 'Hamburguesa') {
+                const tipo = document.getElementById("tipoHamburguesa").value;
+                productoPendientePorAgregar = tipo; 
+            } else {
+                productoPendientePorAgregar = nombreBaseProducto;
+            }
+
+            document.getElementById("subtituloProducto").innerText = `Para tu: ${productoPendientePorAgregar}`;
+            
+            const filas = document.querySelectorAll('.crema-option');
+            filas.forEach(f => f.classList.remove('selected'));
+            document.getElementById("formCremas").reset();
+
+            document.getElementById("overlayCremas").classList.add("active");
+        }
+
+        function toggleEstiloFila(elementoFila) {
+            setTimeout(() => {
+                const checkbox = elementoFila.querySelector('input[type="checkbox"]');
+                if(checkbox.checked) {
+                    elementoFila.classList.add('selected');
+                } else {
+                    elementoFila.classList.remove('selected');
+                }
+            }, 50);
+        }
+
+        function procesarAgregadoConCremas() {
+            const checkboxes = document.querySelectorAll('input[name="crema"]:checked');
+            let cremasElegidas = [];
+            checkboxes.forEach(cb => cremasElegidas.push(cb.value));
+
+            let detalleCremas = "";
+            
+            if (checkboxes.length === 7) {
+                detalleCremas = "(Todas las cremas)";
+            } else {
+                detalleCremas = cremasElegidas.length > 0 ? `(${cremasElegidas.join("+")})` : "(Sin cremas)";
+            }
+            
+            let nombreCompletoConCremas = `${productoPendientePorAgregar} ${detalleCremas}`;
+
+            document.getElementById("overlayCremas").classList.remove("active");
+
+            if (typeof agregarCarrito === "function") {
+                agregarCarrito(nombreCompletoConCremas);
+            } else {
+                alert(`Agregado: ${nombreCompletoConCremas}`);
+            }
+        }
+
+        // ========================================================
+        // SCRIPT INTELIGENTE: VALIDADOR DE DISTANCIA DE DELIVERY
+        // ========================================================
+        function verificarDistanciaDelivery() {
+            const selectorZona = document.getElementById("pagoDireccion");
+            const cuadroAlerta = document.getElementById("alertaDistanciaModal");
+            const btnPagar = document.getElementById("btnEnviarPagoFinal");
+
+            if (!selectorZona || !btnPagar) return;
+
+            if (selectorZona.value === "lejos") {
+                cuadroAlerta.style.display = "block"; // Enciende el cartel de aviso
+                btnPagar.disabled = true;             // Rompe la acción del botón
+                btnPagar.style.backgroundColor = "#999999"; // Cambia a color gris bloqueado
+                btnPagar.style.cursor = "not-allowed";
+                btnPagar.innerText = "ZONA NO PERMITIDA";
+            } else {
+                cuadroAlerta.style.display = "none";  // Desaparece el cartel
+                btnPagar.disabled = false;            // Reactiva la funcionalidad
+                btnPagar.style.backgroundColor = "#d12c42"; // Regresa a tu color rojo corporativo
+                btnPagar.style.cursor = "pointer";
+                btnPagar.innerText = "PAGAR";
+            }
+        }
+
+        // ====================================================================
+        // FUNCIÓN NUEVA: INTERCEPTA Y ELIMINA LA FRASE MOLESTA DE WHATSAPP
+        // ====================================================================
+        function interceptarYEnviarPedido() {
+            // Guardamos temporalmente la función original de abrir ventanas de JavaScript
+            const originalWindowOpen = window.open;
+
+            // Modificamos temporalmente el comportamiento de redirección para corregir el texto
+            window.open = function(url, target) {
+                if (url && url.includes("api.whatsapp.com")) {
+                    try {
+                        // Extraemos el texto del mensaje original que generó script.js
+                        let urlObj = new URL(url);
+                        let params = new URLSearchParams(urlObj.search);
+                        let mensajeOriginal = params.get("text");
+
+                        if (mensajeOriginal) {
+                            // Eliminamos exactamente la frase marcada en verde en image_6a82de.jpg
+                            let fraseAEliminar = "¡Muchas gracias por su compra! Por favor confirme la recepción del pago.";
+                            
+                            if (mensajeOriginal.includes(fraseAEliminar)) {
+                                mensajeOriginal = mensajeOriginal.replace(fraseAEliminar, "");
+                                // Limpiamos espacios o saltos de línea sobrantes al final
+                                mensajeOriginal = mensajeOriginal.trim();
+                                params.set("text", mensajeOriginal);
+                                urlObj.search = params.toString();
+                                url = urlObj.toString();
+                            }
+                        }
+                    } catch (e) {
+                        console.error("Error limpiando el mensaje:", e);
+                    }
+                }
+                // Restauramos inmediatamente la función original del navegador
+                window.open = originalWindowOpen;
+                // Ejecutamos la redirección real hacia el WhatsApp limpio
+                return originalWindowOpen(url, target);
+            };
+
+            // Ejecuta la función principal alojada en script.js
+            if (typeof enviarPedidoWhatsApp === "function") {
+                enviarPedidoWhatsApp();
+            } else {
+                // Si por alguna razón falla, restaura la función para no romper nada
+                window.open = originalWindowOpen;
+            }
+        }
+    </script>
+</body>
+</html>

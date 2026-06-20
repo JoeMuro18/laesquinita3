@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Esquinita.pe</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Estilos generales para el carrusel superior */
+        .hero-image {
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        .carrusel-contenedor {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 400px;
+        }
+        /* Solo afecta al carrusel superior derecho */
+        .hero-image .carrusel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        /* Animación secuencial para las 3 imágenes */
+        .hero-image .carrusel-slide:nth-child(1) { animation: rotarHero 9s infinite; }
+        .hero-image .carrusel-slide:nth-child(2) { animation: rotarHero 9s infinite 3s; }
+        .hero-image .carrusel-slide:nth-child(3) { animation: rotarHero 9s infinite 6s; }
+
+        @keyframes rotarHero {
+            0% { opacity: 0; }
+            6% { opacity: 1; z-index: 2; }
+            33% { opacity: 1; }
+            39% { opacity: 0; z-index: 1; }
+            100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                La Esquinita.pe
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-text">
+            <p class="slogan">
+                RÁPIDO - RICO - PARA TODOS
+            </p>
+            <h1>
+                TU ANTOJO,<br>
+                NUESTRO SABOR
+            </h1>
+            <p>
+                Disfruta lo mejor de la comida rápida:
+                pollo broaster, hamburguesas y salchipapas.
+                Hecho al momento, siempre delicioso.
+            </p>
+            <div class="buttons">
+                <a href="menu.html" id="btnAccesoCliente" class="btn-cliente">
+                    Soy cliente
+                </a>
+                <a href="vendedor.html" class="btn-vendedor">
+                    Soy vendedor
+                </a>
+            </div>
+        </div>
+
+        <!-- EL CUADRO SUPERIOR CON LOS 3 NUEVOS ENLACES ACTUALIZADOS -->
+        <div class="hero-image">
+            <div class="carrusel-contenedor">
+                <!-- Imagen 1: Hamburguesa Freepik -->
+                <img src="https://i.pinimg.com/originals/1b/17/fa/1b17faca19a5d87ea9bd6883fa1da00f.jpg" class="carrusel-slide" alt="Hamburguesa La Esquinita">
+                <!-- Imagen 2: Pollo Broaster Pixabay -->
+                <img src="https://cdn.pixabay.com/photo/2021/07/17/00/56/broaster-6472037_1280.jpg" class="carrusel-slide" alt="Pollo Broaster Crujiente">
+                <!-- Imagen 3: Imagen Pinterest -->
+                <img src="https://i.pinimg.com/736x/8d/bb/71/8dbb717244d32dd626dbef10d7aedd26.jpg" class="carrusel-slide" alt="Deliciosa Comida Rápida">
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN DE PROMOS (IMAGEN ELIMINADA COMO SE SOLICITÓ ANTERIORMENTE) -->
+    <section class="promo">
+        <div class="promo-text">
+            <h2>COMBO PARA TODOS</h2>
+            <p>
+                Combos personales, dúos y familiares.
+                Siempre al mejor precio.
+            </p>
+        </div>
+        <div class="promo-icon">
+            <i class="fa-solid fa-dollar-sign"></i>
+            <p>Mejores precios</p>
+        </div>
+        <div class="promo-icon">
+            <i class="fa-regular fa-face-smile"></i>
+            <p>Sabor que te encanta</p>
+        </div>
+        <div class="promo-icon">
+            <i class="fa-regular fa-clock"></i>
+            <p>Rápido y delicioso</p>
+        </div>
+        <div class="promo-icon">
+            <i class="fa-regular fa-thumbs-up"></i>
+            <p>Calidad garantizada</p>
+        </div>
+    </section>
+
+    <section class="valoracion">
+        <h2>VALORACIÓN</h2>
+        <div class="rating-container">
+            <div class="rating-number">
+                <h3>4.5</h3>
+                <div class="stars">
+                    ★★★★★
+                </div>
+            </div>
+            <div class="rating-bars">
+                <div class="bar">
+                    <div class="fill fill1"></div>
+                </div>
+                <div class="bar">
+                    <div class="fill fill2"></div>
+                </div>
+                <div class="bar">
+                    <div class="fill fill3"></div>
+                </div>
+                <div class="bar">
+                    <div class="fill fill4"></div>
+                </div>
+                <div class="bar">
+                    <div class="fill fill5"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div>
+            <h3>La Esquinita.pe</h3>
+            <p>Tu antojo, nuestro sabor</p>
+        </div>
+        <div>
+            <h3>Contacto</h3>
+            <p>932 925 818</p>
+        </div>
+        <div>
+            <h3>Ubicación</h3>
+            <p>Carabayllo - San José</p>
+        </div>
+        <div>
+            <p>&copy; 2026 LA ESQUINITA.PE</p>
+        </div>
+    </footer>
+
+    <script>
+        // =========================================================
+        // TUS SCRIPTS ORIGINALES Y VALIDADORES DE TIENDA
+        // =========================================================
+        function agregarAlCarrito(producto) {
+            // Tu código existente...
+        }
+        
+        function calcularTotal() {
+            // Tu código existente...
+        }
+
+        function verificarEstadoTienda() {
+            const btnCliente = document.getElementById("btnAccesoCliente");
+            if (!btnCliente) return;
+
+            btnCliente.addEventListener("click", function(evento) {
+                const estado = localStorage.getItem("estadoTiendaEsquinita") || "CERRADO";
+
+                if (estado === "CERRADO") {
+                    evento.preventDefault();
+
+                    const pantallaBloqueo = document.createElement("div");
+                    pantallaBloqueo.style.cssText = `
+                        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                        background: rgba(0, 0, 0, 0.96); z-index: 999999;
+                        display: flex; align-items: center; justify-content: center;
+                        font-family: Arial, sans-serif; padding: 20px;
+                    `;
+
+                    pantallaBloqueo.innerHTML = `
+                        <div style="background: #fff; border: 3px solid #000; box-shadow: 5px 5px 0px #000; padding: 40px; border-radius: 16px; max-width: 450px; text-align: center; position: relative;">
+                            <button onclick="this.parentElement.parentElement.remove(); document.body.style.overflow='auto';" style="position: absolute; top: 12px; right: 15px; background: none; border: none; font-size: 18px; font-weight: bold; cursor: pointer; color: #888;">✕</button>
+                            <span style="font-size: 60px; display:block; margin-bottom:15px;">🛵❌</span>
+                            <h2 style="color: #d12c42; font-size: 28px; font-weight: 800; margin: 0 0 10px 0; font-style: italic;">¡Tienda Cerrada!</h2>
+                            <p style="color: #333; font-size: 15px; font-weight: 600; line-height: 1.5; margin-bottom: 20px;">
+                                En este momento no nos encontramos atendiendo pedidos. Por favor, vuelve cuando el vendedor active el sistema. ¡Gracias por tu preferencia!
+                            </p>
+                            <div style="background: #f1df22; border: 2px solid #000; padding: 8px; font-weight: 700; border-radius: 6px; font-size: 13px;">
+                                La Esquinita.pe - Sabor de Verdad
+                            </div>
+                        </div>
+                    `;
+                    document.body.appendChild(pantallaBloqueo);
+                    document.body.style.overflow = "hidden";
+                }
+            });
+        }
+
+        window.addEventListener("DOMContentLoaded", verificarEstadoTienda);
+    </script>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas - La Esquinita.pe</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .panel-header {
+            background-color: #d12c42;
+            padding: 15px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #000;
+        }
+        .panel-logo { font-size: 28px; font-weight: 800; color: #fff; margin: 0; font-style: italic; }
+        .panel-sub { font-size: 14px; font-weight: 700; color: #f1df22; margin-top: 4px; }
+        .panel-nav-links { display: flex; align-items: center; gap: 20px; list-style: none; margin: 0; padding: 0; }
+        .panel-nav-links a { color: #fff; text-decoration: none; font-weight: 700; font-size: 15px; padding: 8px 16px; border-radius: 6px; }
+        .panel-nav-links a.active { background-color: #f1df22; color: #000; border: 2px solid #000; box-shadow: 2px 2px 0px #000; }
+        
+        .panel-container { max-width: 1200px; width: 95%; margin: 40px auto; }
+        .panel-welcome-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 35px; }
+        .panel-main-title { font-size: 28px; font-weight: 800; text-decoration: underline; }
+        .panel-quote { background-color: #fff; border: 2px solid #000; padding: 10px 20px; font-style: italic; font-weight: 600; max-width: 550px; border-radius: 4px; }
+        .panel-quote span { color: #d12c42; }
+
+        .seccion-grafica {
+            background-color: #ffffff;
+            border: 2px solid #000;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+        }
+        .eje-label-vertical {
+            font-size: 24px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            writing-mode: vertical-lr;
+            transform: rotate(180deg);
+            text-align: center;
+            color: #000;
+            padding: 10px 0;
+            border-right: 2px solid transparent;
+        }
+        .grafica-wrapper {
+            flex: 1;
+            position: relative;
+            height: 160px;
+        }
+        .grafica-wrapper.semanal {
+            height: 320px;
+        }
+        .total-box-derecha {
+            min-width: 150px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: 800;
+            border-left: 2px dashed #000;
+            padding-left: 20px;
+        }
+        .total-box-derecha span {
+            display: block;
+            font-size: 28px;
+            color: #d12c42;
+            margin-top: 5px;
+        }
+        .sin-datos-mensaje {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 700;
+            color: #666;
+            font-style: italic;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="panel-header" style="background-color: #d12c42; padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #000; font-family: 'Arial', sans-serif; box-sizing: border-box; width: 100%;">
+        <div style="flex: 0 0 20%; min-width: 180px;">
+    <h1 class="panel-logo" style="font-size: 26px; font-weight: 800; color: #fff; margin: 0; font-style: italic; letter-spacing: 0.5px; line-height: 1.1;"><a href="index.html" style="color: #fff; text-decoration: none; transition: opacity 0.2s;">La Esquinita.pe</a></h1>
+    <div class="panel-sub" style="font-size: 12px; font-weight: 700; color: #f1df22; margin-top: 2px; text-transform: uppercase;">PÁGINA DEL VENDEDOR</div>
+</div>
+        
+        <div style="flex: 0 0 80%; display: flex; align-items: center; justify-content: flex-end; gap: 20px;">
+            <ul class="panel-nav-links" style="display: flex; align-items: center; gap: 8px; list-style: none; margin: 0; padding: 0; flex-wrap: nowrap;">
+                <li><a href="pedidos-pendientes.html" style="color: #fff; text-decoration: none; font-weight: 700; font-size: 13.5px; padding: 8px 12px; border-radius: 6px; white-space: nowrap; display: inline-block;">Pedidos pendientes</a></li>
+                <li><a href="pedidos-realizados.html" style="color: #fff; text-decoration: none; font-weight: 700; font-size: 13.5px; padding: 8px 12px; border-radius: 6px; white-space: nowrap; display: inline-block;">Pedidos realizados</a></li>
+                <li><a href="estadisticas.html" class="active" style="color: #fff; text-decoration: none; font-weight: 700; font-size: 13.5px; padding: 8px 12px; border-radius: 6px; white-space: nowrap; display: inline-block;">Estadísticas</a></li>
+                <li><a href="reservas-pendientes.html" style="color: #fff; text-decoration: none; font-weight: 700; font-size: 13.5px; padding: 8px 12px; border-radius: 6px; white-space: nowrap; display: inline-block;">Reservas pendientes</a></li>
+                <li><a href="reservas-realizadas.html" style="color: #fff; text-decoration: none; font-weight: 700; font-size: 13.5px; padding: 8px 12px; border-radius: 6px; white-space: nowrap; display: inline-block;">Reservas realizadas</a></li>
+                <li><a href="reseñas.html" style="color: #fff; text-decoration: none; font-weight: 700; font-size: 13.5px; padding: 8px 12px; border-radius: 6px; white-space: nowrap; display: inline-block;">Reseñas</a></li>
+            </ul>
+
+            <div style="background: #111; border: 2px solid #000; box-shadow: 2px 2px 0px #000; border-radius: 20px; padding: 5px; display: flex; align-items: center; justify-content: center; width: 65px; height: 34px; box-sizing: border-box; flex-shrink: 0;">
+                <button id="btnSwitchTienda" onclick="alternarEstadoTienda()" style="background: #3a1b1b; border: 2px solid #ff4d4d; width: 100%; height: 100%; border-radius: 15px; cursor: pointer; position: relative; transition: all 0.25s ease; padding: 0; outline: none;">
+                    <div id="circuloSwitch" style="background: #fff; width: 16px; height: 16px; border-radius: 50%; position: absolute; top: 2px; left: 2px; transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94); display: flex; align-items: center; justify-content: center; box-shadow: 0px 1px 3px rgba(0,0,0,0.4);">
+                        <div id="ledPunto" style="width: 6px; height: 6px; border-radius: 50%; background: #ff4d4d; transition: background 0.25s;"></div>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <script>
+        function alternarEstadoTienda() {
+            let estadoActual = localStorage.getItem("estadoTiendaEsquinita") || "CERRADO";
+            let nuevoEstado = (estadoActual === "ABIERTO") ? "CERRADO" : "ABIERTO";
+            localStorage.setItem("estadoTiendaEsquinita", nuevoEstado);
+            actualizarInterfazSwitch(nuevoEstado);
+        }
+
+        function actualizarInterfazSwitch(estado) {
+            const btn = document.getElementById("btnSwitchTienda");
+            const circulo = document.getElementById("circuloSwitch");
+            const led = document.getElementById("ledPunto");
+
+            if (estado === "ABIERTO") {
+                btn.style.backgroundColor = "#1b3a24";
+                btn.style.borderColor = "#2ecc71";    
+                circulo.style.left = "31px";           
+                led.style.background = "#2ecc71";      
+                circulo.style.boxShadow = "0px 0px 6px #2ecc71";
+            } else {
+                btn.style.backgroundColor = "#3a1b1b";
+                btn.style.borderColor = "#ff4d4d";    
+                circulo.style.left = "2px";            
+                led.style.background = "#ff4d4d";      
+                circulo.style.boxShadow = "0px 1px 3px rgba(0,0,0,0.4)";
+            }
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+            let estadoGuardado = localStorage.getItem("estadoTiendaEsquinita") || "CERRADO";
+            actualizarInterfazSwitch(estadoGuardado);
+        });
+    </script>
+
+    <main class="panel-container">
+        <div class="panel-welcome-row">
+            <h2 class="panel-main-title">Estadísticas</h2>
+            <div class="panel-quote">"Tu esfuerzo diario, nuestro orgullo. <span>Gestiona tus ventas y haz crecer el sabor que nos une</span>"</div>
+        </div>
+
+        <div class="seccion-grafica">
+            <div class="eje-label-vertical">HOY</div>
+            <div class="grafica-wrapper" id="contenedorHoy">
+                <canvas id="graficaHoy"></canvas>
+            </div>
+        </div>
+
+        <div class="seccion-grafica">
+            <div class="eje-label-vertical">SEMANAL</div>
+            <div class="grafica-wrapper semanal" id="contenedorSemanal">
+                <canvas id="graficaSemanal"></canvas>
+            </div>
+            <div class="total-box-derecha">
+                Total:
+                <span id="txtTotalSemanal">S/ 0.00</span>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const diasSemanaEspañol = {
+            "Monday": "Lunes", "Tuesday": "Martes", "Wednesday": "Miércoles",
+            "Thursday": "Jueves", "Friday": "Viernes", "Saturday": "Sábado", "Sunday": "Domingo"
+        };
+
+        function procesarYCalcularEstadisticas() {
+            const completados = JSON.parse(localStorage.getItem("pedidosRealizadosEsquinita")) || [];
+
+            const hoyFormato = new Date().toLocaleDateString("es-PE", {
+                day: "2-digit", month: "2-digit", year: "numeric"
+            });
+
+            let ventaTotalHoy = 0;
+            const registroFechas = {}; 
+
+            completados.forEach(pedido => {
+                // LEER DIRECTAMENTE EL VALOR NUMÉRICO EXACTO ENVIADO DEL CLIENTE
+                let montoPedido = parseFloat(pedido.total || pedido.monto || pedido.precio || 0);
+
+                if (pedido.fecha) {
+                    if (!registroFechas[pedido.fecha]) {
+                        const partesFecha = pedido.fecha.split("/");
+                        const objetoFecha = new Date(parseInt(partesFecha[2]), parseInt(partesFecha[1]) - 1, parseInt(partesFecha[0]));
+                        const nombreDiaIngles = objetoFecha.toLocaleDateString("en-US", { weekday: "long" });
+                        const nombreDiaEspañol = diasSemanaEspañol[nombreDiaIngles] || "Desconocido";
+
+                        registroFechas[pedido.fecha] = {
+                            monto: 0,
+                            nombreDia: nombreDiaEspañol,
+                            timestamp: objetoFecha.getTime()
+                        };
+                    }
+                    registroFechas[pedido.fecha].monto += montoPedido;
+
+                    if (pedido.fecha === hoyFormato) {
+                        ventaTotalHoy += montoPedido;
+                    }
+                }
+            });
+
+            // 1. RENDERIZAR GRÁFICA DE HOY
+            const ctxHoy = document.getElementById('graficaHoy').getContext('2d');
+            new Chart(ctxHoy, {
+                type: 'bar',
+                data: {
+                    labels: ['Ventas de Hoy'],
+                    datasets: [{
+                        data: [ventaTotalHoy],
+                        backgroundColor: '#e2f0d9',
+                        borderColor: '#000000',
+                        borderWidth: 2,
+                        borderRadius: 15,
+                        borderSkipped: false,
+                        barThickness: 50
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { 
+                            grid: { display: false },
+                            ticks: { 
+                                callback: value => 'S/ ' + value.toFixed(2),
+                                font: { weight: 'bold', size: 13 }
+                            },
+                            border: { color: '#000', width: 2 }
+                        },
+                        y: { 
+                            grid: { display: false },
+                            ticks: { font: { weight: 'bold', size: 14 } },
+                            border: { color: '#000', width: 2 }
+                        }
+                    }
+                }
+            });
+
+            // 2. CONSOLIDAR Y AGRUPAR POR DÍA DE LA SEMANA ÚNICO (EVITA EL DOBLE SÁBADO)
+            const agrupadoPorDiaNombre = { "Domingo": 0, "Lunes": 0, "Martes": 0, "Miércoles": 0, "Jueves": 0, "Viernes": 0, "Sábado": 0 };
+            let sumaTotalSemanal = 0;
+            let diasConVentas = 0;
+
+            Object.values(registroFechas).forEach(item => {
+                if (agrupadoPorDiaNombre[item.nombreDia] !== undefined) {
+                    agrupadoPorDiaNombre[item.nombreDia] += item.monto;
+                    sumaTotalSemanal += item.monto;
+                    diasConVentas++;
+                }
+            });
+
+            // Orden estándar de los días para la vista del gráfico semanal
+            const ordenDias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+            const etiquetasSemanales = [];
+            const datosSemanales = [];
+
+            ordenDias.forEach(dia => {
+                if (agrupadoPorDiaNombre[dia] > 0) {
+                    etiquetasSemanales.push(dia);
+                    datosSemanales.push(agrupadoPorDiaNombre[dia]);
+                }
+            });
+
+            document.getElementById("txtTotalSemanal").textContent = `S/ ${sumaTotalSemanal.toFixed(2)}`;
+
+            if (diasConVentas === 0) {
+                document.getElementById("contenedorSemanal").innerHTML = `<div class="sin-datos-mensaje">Aún no hay registros de ventas guardados en esta semana.</div>`;
+                return;
+            }
+
+            const ctxSemanal = document.getElementById('graficaSemanal').getContext('2d');
+            new Chart(ctxSemanal, {
+                type: 'bar',
+                data: {
+                    labels: etiquetasSemanales,
+                    datasets: [{
+                        data: datosSemanales,
+                        backgroundColor: '#e2f0d9',
+                        borderColor: '#000000',
+                        borderWidth: 2,
+                        borderRadius: 15,
+                        borderSkipped: false,
+                        barPercentage: 0.5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { 
+                            grid: { display: false },
+                            ticks: { font: { weight: 'bold', size: 13 } },
+                            border: { color: '#000', width: 2 }
+                        },
+                        y: { 
+                            grid: { display: false },
+                            ticks: { 
+                                callback: value => 'S/ ' + value,
+                                font: { weight: 'bold', size: 13 }
+                            },
+                            border: { color: '#000', width: 2 }
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = procesarYCalcularEstadisticas;
+    </script>
+</body>
+</html>

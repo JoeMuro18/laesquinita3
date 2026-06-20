@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promociones - La Esquinita.pe</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">La Esquinita.pe</a>
+                <div class="subtitulo-cliente">
+                    SECCION CLIENTES
+                </div>
+            </div>
+
+            <ul>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="promociones.html" class="activo">Promociones</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+                <li><a href="reservas.html">Reservas</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="resenas.html">Reseñas</a></li>
+            </ul>
+
+            <div class="cart" onclick="abrirCarrito()">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span id="contador">0</span>
+            </div>
+        </nav>
+    </header>
+
+    <section class="promociones-header">
+        <div class="oferta-box">
+            OFERTAS<br>
+            POR TIEMPO<br>
+            LIMITADO
+        </div>
+
+        <div class="promo-titulo">
+            <h1>NUESTRAS <span>PROMOCIONES</span></h1>
+            <p>
+                "Combos irresistibles, precios increíbles.
+                Porque comer rico no tiene que costar más."
+            </p>
+        </div>
+
+        <div class="delivery-box">
+            <i class="fa-solid fa-truck-fast"></i>
+            <p>Delivery Autorizado<br>Costo de 5 soles</p>
+        </div>
+    </section>
+
+    <section class="promociones-grid">
+
+        <div class="combo-card">
+            <div class="combo-top rojo">
+                Combo Broaster
+            </div>
+            <img src="combo-broster.jpg" alt="Combo Broster">
+            <ul>
+                <li>2 piezas de pollo (pierna)</li>
+                <li>Papas fritas</li>
+                <li>Una gaseosa personal</li>
+            </ul>
+            <div class="precio-promo">
+                S/19
+            </div>
+            <button onclick="agregarComboConCremas('Combo Broaster')">
+                Agregar
+            </button>
+        </div>
+
+        <div class="combo-card">
+            <div class="combo-top amarillo">
+                Combo Parrillero
+            </div>
+            <!-- Tu nueva imagen del Combo Parrillero asignada aquí -->
+            <img src="combo-parrillero.jpg" alt="Combo Parrillero">
+            <ul>
+                <li>Hamburguesa clásica</li>
+                <li>Salchipapa</li>
+                <li>Una gaseosa personal</li>
+            </ul>
+            <div class="precio-promo">
+                S/15
+            </div>
+            <button onclick="agregarComboConCremas('Combo Parrillero')">
+                Agregar
+            </button>
+        </div>
+
+        <div class="combo-card">
+            <div class="combo-top rojo">
+                Combo Familiar
+            </div>
+            <img src="https://static.whataform.com/options/picture_166778559d0436bced5e_56e3b72d4f8431d0261536f770e7644149e8011e.jpg">
+            <ul>
+                <li>8 piezas de pollo</li>
+                <li>2 papas fritas familiares</li>
+                <li>Una gaseosa 1.5L</li>
+            </ul>
+            <div class="precio-promo">
+                S/68
+            </div>
+            <button onclick="agregarComboConCremas('Combo Familiar')">
+                Agregar
+            </button>
+        </div>
+
+        <div class="combo-card">
+            <div class="combo-top amarillo">
+                Combo Amigos
+            </div>
+            <img src="https://images.rappi.pe/products/tmp3587278711549287796574980753.png?d=300x300&e=webp&q=10">
+            <ul>
+                <li>2 salchipapas</li>
+                <li>2 gaseosas personales</li>
+            </ul>
+            <div class="precio-promo">
+                S/12
+            </div>
+            <button onclick="agregarComboConCremas('Combo Amigos')">
+                Agregar
+            </button>
+        </div>
+
+    </section>
+
+    <footer>
+        <div>
+            <h3>La Esquinita.pe</h3>
+            <p>Tu antojo, nuestro sabor</p>
+        </div>
+        <div>
+            <h3>Contacto</h3>
+            <p>932 925 818</p>
+        </div>
+        <div>
+            <h3>Ubicación</h3>
+            <p>Carabayllo - San José</p>
+        </div>
+        <div>
+            <p>&copy; 2026 LA ESQUINITA.PE</p>
+        </div>
+    </footer>
+
+    <div id="mensaje-carrito" class="mensaje-carrito">
+        Producto agregado al carrito
+    </div>
+
+    <div id="panel-carrito" class="panel-carrito">
+        <div class="carrito-header">
+            <h2>CARRITO</h2>
+            <button class="btn-minimizar" onclick="cerrarCarrito()">➖</button>
+        </div>
+
+        <div id="lista-productos">
+            <p class="carrito-vacio">
+                No hay productos agregados
+            </p>
+        </div>
+
+        <div class="resumen-carrito">
+            <p>Subtotal: <span id="subtotal">S/ 0.00</span></p>
+            <p>Delivery: <span>S/ 5.00</span></p>
+            <p class="total">TOTAL: <span id="total">S/ 5.00</span></p>
+            <button class="btn-pagar" onclick="abrirModalPago()">
+                PAGAR
+            </button>
+        </div>
+    </div>
+
+    <div id="modal-pago" class="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(3px); justify-content: center; align-items: center; z-index: 10000;">
+        <div class="modal-caja-pago" style="background-color: #f1df22; color: #000; padding: 20px; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); position: relative; text-align: center; border: 2px solid #000; font-family: sans-serif;">
+            
+            <button onclick="cerrarModalPago()" style="position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 20px; cursor: pointer; font-weight: bold;">✕</button>
+
+            <h2 style="text-decoration: underline; margin-bottom: 5px; font-weight: bold; letter-spacing: 1px; margin-top: 10px;">PAGAR</h2>
+            <h3 style="margin-top: 0; margin-bottom: 20px; font-weight: bold;">YAPE/PLIN</h3>
+
+            <!-- Modificado aquí para ejecutar la intercepción segura del mensaje de WhatsApp -->
+            <form id="form-final-pago" onsubmit="event.preventDefault(); interceptarYEnviarPedido();" style="display: flex; flex-direction: column; text-align: left; gap: 8px;">
+                
+                <label style="font-weight: bold; margin-bottom: -4px;">Número:</label>
+                <input type="tel" id="pagoNumero" placeholder="Ej. 917299020" style="padding: 10px; border: 2px solid #000; border-radius: 20px; width: 100%; box-sizing: border-box;" required>
+
+                <label style="font-weight: bold; margin-bottom: -4px;">Código de aprobación de compras:</label>
+                <input type="text" id="pagoCodigo" placeholder="Código de la operación" style="padding: 10px; border: 2px solid #000; border-radius: 20px; width: 100%; box-sizing: border-box;" required>
+
+                <label style="font-weight: bold; margin-bottom: -4px;">Dirección / Zona de entrega:</label>
+                <select id="pagoDireccion" style="padding: 10px; border: 2px solid #000; border-radius: 20px; width: 100%; box-sizing: border-box; background: white; font-weight: bold;" required>
+                    <option value="" disabled selected>-- Selecciona tu zona --</option>
+                    <option value="Santa Rosa">Santa Rosa</option>
+                    <option value="Nueva Juventud">Nueva Juventud</option>
+                </select>
+                <span style="font-size: 11px; color: #d32f2f; font-weight: bold; margin-top: -4px; padding-left: 5px;">*Solo contamos con delivery a Santa Rosa y Nueva Juventud.</span>
+
+                <label style="font-weight: bold; margin-bottom: -4px;">Nombres y apellidos completos:</label>
+                <input type="text" id="pagoNombre" placeholder="Tu nombre completo" style="padding: 10px; border: 2px solid #000; border-radius: 20px; width: 100%; box-sizing: border-box;" required>
+
+                <button type="submit" style="background-color: #d12c42; color: white; border: 2px solid #000; padding: 12px; border-radius: 20px; font-weight: bold; cursor: pointer; margin-top: 15px; letter-spacing: 1px; width: 100%;">PAGAR</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Lógica para interceptar los combos y meter automáticamente el Pack de cremas gratuito
+        function agregarComboConCremas(nombreCombo) {
+            // Le añadimos la etiqueta profesional para que cocina sepa qué mandar
+            let comboConCremas = `${nombreCombo} (Incluye Pack Familiar de Cremas)`;
+            
+            if (typeof agregarCarrito === "function") {
+                agregarCarrito(comboConCremas);
+            } else {
+                alert(`Agregado: ${comboConCremas}`);
+            }
+        }
+
+        // ====================================================================
+        // FUNCIÓN NUEVA: INTERCEPTA Y ELIMINA LA FRASE MOLESTA DE WHATSAPP
+        // ====================================================================
+        function interceptarYEnviarPedido() {
+            // Guardamos temporalmente la función original de abrir ventanas de JavaScript
+            const originalWindowOpen = window.open;
+
+            // Modificamos temporalmente el comportamiento de redirección para corregir el texto
+            window.open = function(url, target) {
+                if (url && url.includes("api.whatsapp.com")) {
+                    try {
+                        // Extraemos el texto del mensaje original que generó script.js
+                        let urlObj = new URL(url);
+                        let params = new URLSearchParams(urlObj.search);
+                        let mensajeOriginal = params.get("text");
+
+                        if (mensajeOriginal) {
+                            // Eliminamos exactamente la frase repetida del script base
+                            let fraseAEliminar = "¡Muchas gracias por su compra! Por favor confirme la recepción del pago.";
+                            
+                            if (mensajeOriginal.includes(fraseAEliminar)) {
+                                mensajeOriginal = mensajeOriginal.replace(fraseAEliminar, "");
+                                // Limpiamos espacios o saltos de línea sobrantes al final
+                                mensajeOriginal = mensajeOriginal.trim();
+                                params.set("text", mensajeOriginal);
+                                urlObj.search = params.toString();
+                                url = urlObj.toString();
+                            }
+                        }
+                    } catch (e) {
+                        console.error("Error limpiando el mensaje en promociones:", e);
+                    }
+                }
+                // Restauramos inmediatamente la función original del navegador
+                window.open = originalWindowOpen;
+                // Ejecutamos la redirección real hacia el WhatsApp limpio
+                return originalWindowOpen(url, target);
+            };
+
+            // Ejecuta la función principal alojada en script.js
+            if (typeof enviarPedidoWhatsApp === "function") {
+                enviarPedidoWhatsApp();
+            } else {
+                // Si por alguna razón falla, restaura la función para no romper nada
+                window.open = originalWindowOpen;
+            }
+        }
+    </script>
+</body>
+</html>

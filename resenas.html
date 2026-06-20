@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reseñas - La Esquinita.pe</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Contenedor del selector */
+        .contenedor-calificacion { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .selector-estrellas { display: flex; gap: 4px; }
+        .selector-estrellas i { cursor: pointer; font-size: 26px; color: #ccc; transition: transform 0.1s; }
+        .selector-estrellas i:hover { transform: scale(1.1); }
+        .selector-estrellas i.active { color: #f1df22; }
+        
+        /* Botón para resetear a 0 estrellas */
+        .btn-reset-cero { background: #eee; border: 1px solid #ccc; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; color: #666; cursor: pointer; transition: all 0.2s; }
+        .btn-reset-cero:hover { background: #dc3545; color: #fff; border-color: #000; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">La Esquinita.pe</a>
+                <div class="subtitulo-cliente">SECCION CLIENTES</div>
+            </div>
+            <ul>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="promociones.html">Promociones</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+                <li><a href="reservas.html">Reservas</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="resenas.html" class="activo">Reseñas</a></li>
+            </ul>
+            <div class="cart" onclick="abrirCarrito()">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span id="contador">0</span>
+            </div>
+        </nav>
+    </header>
+
+    <section class="resenas-hero">
+        <h3>LO QUE DICEN</h3>
+        <h1>NUESTROS CLIENTES</h1>
+    </section>
+
+    <section class="resenas-score-container">
+        <div class="score-global">
+            <h2>4.8</h2>
+            <div class="stars">★★★★★</div>
+            <p>de 5 estrellas</p>
+        </div>
+        <div class="score-features">
+            <div class="feature-item"><i class="fa-regular fa-smile"></i><p>Calidad de comida</p><span>4.9</span></div>
+            <div class="feature-item"><i class="fa-regular fa-clock"></i><p>Tiempo de entrega</p><span>4.8</span></div>
+            <div class="feature-item"><i class="fa-solid fa-bag-shopping"></i><p>Atención al cliente</p><span>4.8</span></div>
+            <div class="feature-item"><i class="fa-solid fa-house"></i><p>Ambiente del local</p><span>4.7</span></div>
+        </div>
+    </section>
+
+    <h2 class="subtitulo-seccion">RESEÑAS DE NUESTROS CLIENTES</h2>
+
+    <section class="resenas-contenido">
+        <div class="izquierda-resenas">
+            <div class="grid-comentarios" id="grid-comentarios"></div>
+            <div class="invitacion-box">
+                <h3>¡TU OPINION NOS AYUDA A MEJORAR!</h3>
+                <p>Cuentanos tu experiencia y ayudanos a seguir brindandote el mejor sabor y servicio.</p>
+            </div>
+        </div>
+
+        <div class="formulario-resena-box">
+            <div class="form-header">
+                <i class="fa-solid fa-arrow-left"></i>
+                <h3>MI RESEÑA</h3>
+            </div>
+            <form id="formNuevaResena" onsubmit="event.preventDefault();">
+                <label>Mi nombre</label>
+                <input type="text" id="nombreResena" placeholder="Escribe tu nombre" required>
+
+                <label>Mi calificación</label>
+                <div class="contenedor-calificacion">
+                    <div class="selector-estrellas" id="zonaEstrellas">
+                        <i class="fa-solid fa-star active" data-valor="1"></i>
+                        <i class="fa-solid fa-star active" data-valor="2"></i>
+                        <i class="fa-solid fa-star active" data-valor="3"></i>
+                        <i class="fa-solid fa-star active" data-valor="4"></i>
+                        <i class="fa-solid fa-star active" data-valor="5"></i>
+                    </div>
+                    <button type="button" class="btn-reset-cero" onclick="ponerCeroEstrellas()">0 ★</button>
+                </div>
+                <input type="hidden" id="puntuacionResena" value="5">
+
+                <label>Mi comentario</label>
+                <textarea id="comentarioResena" placeholder="Escribe tu comentario aquí..." rows="4" required></textarea>
+
+                <button type="button" class="btn-publicar" onclick="publicarResena()">PUBLICAR</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div><h3>La Esquinita.pe</h3><p>Tu antojo, nuestro sabor</p></div>
+        <div><h3>Contacto</h3><p>932 925 818</p></div>
+        <div><h3>Ubicación</h3><p>Carabayllo - San José</p></div>
+        <div><p>2026 LA ESQUINITA.PE</p></div>
+    </footer>
+
+    <div id="mensaje-reserva-exito" class="mensaje-reserva">
+        ✅ ¡Gracias por tu opinión! Tu reseña ha sido publicada con éxito.
+    </div>
+
+    <!-- NOTA: Quitamos o comentamos script.js si este tiene funciones antiguas que sobreescriben las reseñas -->
+    <script src="script.js"></script>
+
+    <script>
+        const estrellas = document.querySelectorAll('#zonaEstrellas i');
+        const inputPuntuacion = document.getElementById('puntuacionResena');
+
+        function actualizarEstrellasVisual(valor) {
+            inputPuntuacion.value = valor;
+            estrellas.forEach((est, i) => {
+                if (i < valor) {
+                    est.className = "fa-solid fa-star active";
+                } else {
+                    est.className = "fa-regular fa-star";
+                }
+            });
+        }
+
+        estrellas.forEach((estrella, index) => {
+            estrella.addEventListener('click', () => {
+                const valor = index + 1;
+                actualizarEstrellasVisual(valor);
+            });
+        });
+
+        function ponerCeroEstrellas() {
+            actualizarEstrellasVisual(0);
+        }
+
+        // Base de datos limpia (AQUÍ YA NO ESTÁ CARLOS QUISPE)
+        function inicializarResenasBase() {
+            if (!localStorage.getItem("sistemaResenasEsquinita")) {
+                const demos = [
+                    { id: "rev-1", usuario: "Juan Perez", puntuacion: 5, comentario: "¡Excelente sabor y buen servicio! La hamburguesa es mi favorita.", color: "rojo" },
+                    { id: "rev-2", usuario: "Maria Lopez", puntuacion: 5, comentario: "Las salchipapas son increíbles y las cremas le dan el toque perfecto.", color: "amarillo" },
+                    { id: "rev-3", usuario: "Ana Lucia", puntuacion: 5, comentario: "Muy buena atención y el pollo super crujiente. Volveré sin duda.", color: "rojo" },
+                    { id: "rev-4", usuario: "Martin Vega", puntuacion: 5, comentario: "Me encantó el servicio de delivery, muy puntual con la entrega.", color: "amarillo" },
+                    { id: "rev-5", usuario: "Enrique Palacios", puntuacion: 5, comentario: "Increíble sabor, una maravilla en serio. Volveré a pedir mucho más.", color: "rojo" },
+                    { id: "rev-6", usuario: "Maria Fernanda", puntuacion: 5, comentario: "Me encantó el lugar, buena atención y buen ambiente, de verdad fascinante.", color: "amarillo" }
+                ];
+                localStorage.setItem("sistemaResenasEsquinita", JSON.stringify(demos));
+            }
+        }
+
+        function pintarResenasClientes() {
+            inicializarResenasBase();
+            const grid = document.getElementById("grid-comentarios");
+            const lista = JSON.parse(localStorage.getItem("sistemaResenasEsquinita")) || [];
+
+            grid.innerHTML = "";
+            lista.forEach(item => {
+                const estrellasTexto = "★".repeat(item.puntuacion) + "☆".repeat(5 - item.puntuacion);
+                
+                // Renderizado limpio de tarjeta (SIN botón de eliminar/tachito)
+                grid.innerHTML += `
+                    <div class="comentario-card ${item.color || 'rojo'}">
+                        <div class="comentario-header">
+                            <div class="avatar"><i class="fa-regular fa-user"></i></div>
+                            <div>
+                                <h4>${item.usuario}</h4>
+                                <div class="stars-card" style="color: #f1df22; font-size: 14px;">${estrellasTexto}</div>
+                            </div>
+                        </div>
+                        <p>"${item.comentario}"</p>
+                    </div>
+                `;
+            });
+        }
+
+        function publicarResena() {
+            const nombre = document.getElementById("nombreResena").value.trim();
+            const comentario = document.getElementById("comentarioResena").value.trim();
+            const puntuacion = parseInt(inputPuntuacion.value);
+
+            if (!nombre || !comentario) {
+                alert("Por favor, rellene todos los campos antes de publicar.");
+                return;
+            }
+
+            const colores = ["rojo", "amarillo"];
+            const colorAleatorio = colores[Math.floor(Math.random() * colores.length)];
+
+            const nuevaOp = {
+                id: "rev-" + Date.now(),
+                usuario: nombre,
+                puntuacion: puntuacion,
+                comentario: comentario,
+                color: colorAleatorio
+            };
+
+            let listado = JSON.parse(localStorage.getItem("sistemaResenasEsquinita")) || [];
+            listado.push(nuevaOp);
+            localStorage.setItem("sistemaResenasEsquinita", JSON.stringify(listado));
+
+            const toast = document.getElementById("mensaje-reserva-exito");
+            toast.style.display = 'block';
+            toast.style.opacity = '1';
+
+            document.getElementById("formNuevaResena").reset();
+            actualizarEstrellasVisual(5);
+
+            pintarResenasClientes();
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => { toast.style.display = 'none'; }, 500);
+            }, 3000);
+        }
+
+        // Forzamos a que pinte usando la función local de este archivo inmediatamente
+        window.addEventListener("DOMContentLoaded", pintarResenasClientes);
+    </script>
+</body>
+</html>

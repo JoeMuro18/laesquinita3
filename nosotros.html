@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosotros - La Esquinita.pe</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Estilos integrados para asegurar el diseño impecable y responsive */
+        .nosotros-contenedor {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+        .nosotros-superior {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        .nosotros-texto {
+            flex: 1;
+        }
+        .nosotros-imagen {
+            flex: 1;
+            text-align: center;
+        }
+        .nosotros-imagen img {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 4px 4px 15 rgba(0,0,0,0.1);
+        }
+        .equipo-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 30px;
+        }
+        .tarjeta-miembro {
+            background: #fff;
+            border: 2px solid #000;
+            border-radius: 12px;
+            box-shadow: 4px 4px 0px #000;
+            width: 320px;
+            padding: 25px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .icono-perfil {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            border: 2px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            box-shadow: 2px 2px 0px #000;
+            overflow: hidden;
+            background: #fff;
+        }
+        .icono-perfil img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .tag-rol {
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid #000;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+        .descripcion-floro {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+            font-weight: 500;
+            margin: 0;
+        }
+        .mision-vision {
+            display: flex;
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .caja-mision, .caja-vision {
+            flex: 1;
+            background: #fff;
+            border: 2px solid #000;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 4px 4px 0px #000;
+        }
+
+        /* Estilos base de navegación para evitar conflictos */
+        header nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+        }
+        header nav ul {
+            display: flex;
+            list-style: none;
+            gap: 15px;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* optimización estricta para celulares y pantallas medianas */
+        @media (max-width: 850px) {
+            /* SOLUCIÓN AL MENÚ EN CELULARES */
+            header nav {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+                padding: 15px 10px;
+            }
+            header nav ul {
+                overflow-x: auto;
+                width: 100%;
+                justify-content: flex-start;
+                padding-bottom: 8px;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
+            header nav ul li {
+                display: inline-block;
+                flex-shrink: 0;
+            }
+            footer {
+                display: flex;
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+            /* FIN DE SOLUCIÓN NAV */
+
+            .nosotros-superior {
+                flex-direction: column-reverse; /* La imagen pasa abajo del texto principal en móviles */
+                gap: 25px;
+                text-align: center;
+            }
+            .nosotros-imagen img {
+                max-width: 100%;
+            }
+            .equipo-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+            .tarjeta-miembro {
+                width: 100%;
+                max-width: 340px; /* Se estira de forma fluida adaptándose al ancho del celular */
+            }
+            .mision-vision {
+                flex-direction: column;
+                gap: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">La Esquinita.pe</a>
+                <div class="subtitulo-cliente">
+                    SECCION CLIENTES
+                </div>
+            </div>
+
+            <ul>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="promociones.html">Promociones</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+                <li><a href="reservas.html">Reservas</a></li>
+                <li><a href="nosotros.html" class="activo">Nosotros</a></li>
+                <li><a href="resenas.html">Reseñas</a></li>
+            </ul>
+
+            <div class="cart" onclick="abrirCarrito()">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span id="contador">0</span>
+            </div>
+        </nav>
+    </header>
+
+    <section class="nosotros-contenedor">
+
+        <div class="nosotros-superior">
+            <div class="nosotros-texto">
+                <h2>
+                    <span>SOBRE</span><br>
+                    NOSOTROS
+                </h2>
+                <p>
+                    En La Esquinita nos apasiona brindar una experiencia única a nuestros clientes a través de productos frescos, deliciosos y preparados al instante.
+                </p>
+                <p>
+                    Trabajamos en equipo para garantizar que cada pedido llegue con el mejor sabor y presentación, convirtiéndonos en una opción confiable para quienes buscan disfrutar de una comida rápida y deliciosa.
+                </p>
+            </div>
+
+            <div class="nosotros-imagen">
+                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800" alt="Hamburguesa">
+            </div>
+        </div>
+
+        <h2 class="titulo-equipo" style="text-align: center;">
+            NUESTRO <span>EQUIPO</span>
+        </h2>
+
+        <!-- Sección de Equipo con Fotos Propias -->
+        <div class="equipo-grid">
+
+            <!-- Primera Mujer: Frituras y Broster -->
+            <div class="tarjeta-miembro">
+                <div class="icono-perfil">
+                    <img src="milagros.jpg" alt="Milagros Mendoza">
+                </div>
+                <h3 style="font-size: 20px; font-weight: 800; margin: 5px 0;">Milagros Mendoza</h3>
+                <span class="tag-rol" style="background: #d12c42;">Jefa de Estación de Frituras</span>
+                <p class="descripcion-floro">
+                    Es la guardiana del crujido perfecto en nuestra cocina. Milagros se encarga con precisión milimétrica de **freír las papas doradas y nuestros icónicos pollos broster**. Su secreto está en el control exacto de la temperatura y los tiempos exactos, logrando que cada pieza salga increíblemente jugosa por dentro y con ese crocante único que tanto encanta a Carabayllo.
+                </p>
+            </div>
+
+            <!-- Segunda Mujer: Plancha, Hamburguesas, Salón y Despacho -->
+            <div class="tarjeta-miembro">
+                <div class="icono-perfil">
+                    <img src="camila.jpg" alt="Camila Espinoza">
+                </div>
+                <h3 style="font-size: 20px; font-weight: 800; margin: 5px 0;">Camila Espinoza</h3>
+                <span class="tag-rol" style="background: #111;">Encargada de Plancha y Atención</span>
+                <p class="descripcion-floro">
+                    El verdadero motor operativo de nuestro local. Camila domina la plancha caliente **friendo al momento las hamburguesas más jugosas y los hotdogs** con la sazón de la casa. Además, con su carisma y energía, gestiona el **reparto directo a las mesas del salón** and organiza con rapidez los pedidos de los clientes que vienen a **recoger en tienda**. ¡Eficiencia y buena onda en cada entrega!
+                </p>
+            </div>
+
+            <!-- El Hombre: Motorizado Express -->
+            <div class="tarjeta-miembro">
+                <div class="icono-perfil">
+                    <img src="carlos.jpg" alt="Carlos Huamán">
+                </div>
+                <h3 style="font-size: 20px; font-weight: 800; margin: 5px 0;">Carlos Huamán</h3>
+                <span class="tag-rol" style="background: #2ecc71; color: #000;">Especialista en Delivery Express</span>
+                <p class="descripcion-floro">
+                    Nuestro piloto de confianza y el encargado de conectar la cocina caliente directamente con tu mesa. Carlos es **el motorizado oficial de la casa**, recorriendo de forma segura cada rincón autorizado de Santa Rosa y Nueva Juventud. Su misión es clara: cuidar cada combo en el trayecto para que lo recibas calientito, intacto y en tiempo récord en la comodidad de tu hogar.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="mision-vision">
+            <div class="caja-mision">
+                <h3>MISION</h3>
+                <p>
+                    Ofrecer comida rápida de excelente calidad, preparada con ingredientes frescos y atención eficiente, satisfaciendo los gustos y necesidades de nuestros clientes.
+                </p>
+            </div>
+
+            <div class="caja-vision">
+                <h3>VISION</h3>
+                <p>
+                    Ser reconocidos como uno de los negocios de comida rápida preferidos por nuestros clientes, destacando por nuestro sabor, calidad y compromiso con la satisfacción del consumidor.
+                </p>
+            </div>
+        </div>
+
+    </section>
+
+    <footer>
+        <div>
+            <h3>La Esquinita.pe</h3>
+            <p>Tu antojo, nuestro sabor</p>
+        </div>
+        <div>
+            <h3>Contacto</h3>
+            <p>932 925 818</p>
+        </div>
+        <div>
+            <h3>Ubicación</h3>
+            <p>Carabayllo - San Jose</p>
+        </div>
+        <div>
+            <p>&copy; 2026 LA ESQUINITA.PE</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

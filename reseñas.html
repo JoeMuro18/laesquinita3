@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reseñas - La Esquinita.pe</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .panel-header { background-color: #d12c42; padding: 15px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #000; }
+        .panel-logo { font-size: 28px; font-weight: 800; color: #fff; margin: 0; font-style: italic; }
+        .panel-sub { font-size: 14px; font-weight: 700; color: #f1df22; margin-top: 4px; }
+        .panel-nav-links { display: flex; align-items: center; gap: 20px; list-style: none; margin: 0; padding: 0; }
+        .panel-nav-links a { color: #fff; text-decoration: none; font-weight: 700; font-size: 15px; padding: 8px 16px; border-radius: 6px; }
+        .panel-nav-links a.active { background-color: #f1df22; color: #000; border: 2px solid #000; box-shadow: 2px 2px 0px #000; }
+        
+        .panel-container { max-width: 1200px; width: 95%; margin: 40px auto; }
+        .panel-welcome-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 35px; }
+        .panel-main-title { font-size: 28px; font-weight: 800; text-decoration: underline; }
+        .panel-quote { background-color: #fff; border: 2px solid #000; padding: 10px 20px; font-style: italic; font-weight: 600; max-width: 550px; border-radius: 4px; }
+        .panel-quote span { color: #d12c42; }
+
+        .reseñas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; margin-top: 20px; }
+
+        .reseña-card { border: 2px solid #000; border-radius: 15px; padding: 22px; box-shadow: 3px 3px 0px #000; display: flex; flex-direction: column; gap: 10px; position: relative; transition: transform 0.2s ease; }
+        .reseña-card:hover { transform: scale(1.02); }
+
+        .card-roja { background-color: #d12c42; color: #fff; }
+        .card-amarilla { background-color: #f1df22; color: #000; }
+
+        .user-info-row { display: flex; align-items: center; gap: 12px; padding-right: 25px; }
+        .user-avatar-circle { width: 40px; height: 40px; border: 2px solid #000; border-radius: 50%; background-color: #fff; color: #000; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .user-name { font-size: 18px; font-weight: 800; }
+
+        .stars-row { display: flex; gap: 3px; font-size: 14px; color: #000000; }
+        .reseña-texto { font-size: 14.5px; font-weight: 600; line-height: 1.4; margin-top: 5px; }
+        
+        /* Botón eliminar exclusivo del vendedor */
+        .btn-eliminar-admin { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.15); border: 1px solid #000; color: #000; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; transition: all 0.2s; }
+        .card-roja .btn-eliminar-admin { color: #fff; border-color: #fff; }
+        .btn-eliminar-admin:hover { background: #dc3545; color: #fff; border-color: #000; transform: scale(1.1); }
+
+        .sin-reseñas-box { text-align: center; padding: 50px; border: 2px dashed #000; border-radius: 12px; font-size: 18px; font-weight: 700; background: #fafafa; grid-column: 1 / -1; }
+        
+        /* Notificación flotante del vendedor */
+        .toast-vendedor { display: none; position: fixed; bottom: 20px; right: 20px; background: #dc3545; color: white; padding: 12px 25px; border-radius: 8px; font-weight: bold; border: 2px solid #000; box-shadow: 3px 3px 0px #000; z-index: 9999; transition: opacity 0.3s; }
+    </style>
+</head>
+<body>
+
+   <header class="panel-header" style="background-color: #d12c42; padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #000; font-family: 'Arial', sans-serif; box-sizing: border-box; width: 100%;">
+    <div style="flex: 0 0 20%; min-width: 180px;">
+        <h1 class="panel-logo" style="font-size: 26px; font-weight: 800; color: #fff; margin: 0; font-style: italic;"><a href="index.html" style="color: #fff; text-decoration: none;">La Esquinita.pe</a></h1>
+        <div class="panel-sub" style="font-size: 12px; font-weight: 700; color: #f1df22; margin-top: 2px; text-transform: uppercase;">PÁGINA DEL VENDEDOR</div>
+    </div>
+    <div style="flex: 0 0 80%; display: flex; align-items: center; justify-content: flex-end; gap: 20px;">
+        <ul class="panel-nav-links" style="display: flex; align-items: center; gap: 8px; list-style: none; margin: 0; padding: 0; flex-wrap: nowrap;">
+            <li><a href="pedidos-pendientes.html" style="color: #fff; text-decoration: none; font-weight: 700; font-size: 13.5px; padding: 8px 12px; border-radius: 6px; white-space: nowrap; display: inline-block;">Pedidos pendientes</a></li>
+            <li><a href="pedidos-realizados.html" style="color: #fff; text-decoration: none; font-weight: 700; font-size: 13.5px; padding: 8px 12px; border-radius: 6px; white-space: nowrap; display: inline-block;">Pedidos realizados</a></li>
+            <li><a href="estadisticas.html" style="color: #fff; text-decoration: none; font-weight: 700; font-size: 13.5px; padding: 8px 12px; border-radius: 6px; white-space: nowrap; display: inline-block;">Estadísticas</a></li>
+            <li><a href="reservas-pendientes.html" style="color: #fff; text-decoration: none; font-weight: 700; font-size: 13.5px; padding: 8px 12px; border-radius: 6px; white-space: nowrap; display: inline-block;">Reservas pendientes</a></li>
+            <li><a href="reservas-realizadas.html" style="color: #fff; text-decoration: none; font-weight: 700; font-size: 13.5px; padding: 8px 12px; border-radius: 6px; white-space: nowrap; display: inline-block;">Reservas realizadas</a></li>
+            <li><a href="reseñas.html" class="active" style="color: #fff; text-decoration: none; font-weight: 700; font-size: 13.5px; padding: 8px 12px; border-radius: 6px; white-space: nowrap; display: inline-block;">Reseñas</a></li>
+        </ul>
+        <div style="background: #111; border: 2px solid #000; box-shadow: 2px 2px 0px #000; border-radius: 20px; padding: 5px; display: flex; align-items: center; justify-content: center; width: 65px; height: 34px; box-shrink: 0;">
+            <button id="btnSwitchTienda" onclick="alternarEstadoTienda()" style="background: #3a1b1b; border: 2px solid #ff4d4d; width: 100%; height: 100%; border-radius: 15px; cursor: pointer; position: relative; padding: 0; outline: none;">
+                <div id="circuloSwitch" style="background: #fff; width: 16px; height: 16px; border-radius: 50%; position: absolute; top: 2px; left: 2px; transition: all 0.25s; display: flex; align-items: center; justify-content: center;"><div id="ledPunto" style="width: 6px; height: 6px; border-radius: 50%; background: #ff4d4d;"></div></div>
+            </button>
+        </div>
+    </div>
+</header>
+
+    <main class="panel-container">
+        <div class="panel-welcome-row">
+            <h2 class="panel-main-title">Reseñas</h2>
+            <div class="panel-quote">"Tu esfuerzo diario, nuestro orgullo. <span>Gestiona tus ventas y haz crecer el sabor que nos une</span>"</div>
+        </div>
+        <div class="reseñas-grid" id="contenedorReseñas"></div>
+    </main>
+
+    <div id="toast-eliminar" class="toast-vendedor">🗑️ La reseña ha sido eliminada correctamente.</div>
+
+    <script>
+        function alternarEstadoTienda() {
+            let estadoActual = localStorage.getItem("estadoTiendaEsquinita") || "CERRADO";
+            let nuevoEstado = (estadoActual === "ABIERTO") ? "CERRADO" : "ABIERTO";
+            localStorage.setItem("estadoTiendaEsquinita", nuevoEstado);
+            actualizarInterfazSwitch(nuevoEstado);
+        }
+
+        function actualizarInterfazSwitch(estado) {
+            const btn = document.getElementById("btnSwitchTienda");
+            const circulo = document.getElementById("circuloSwitch");
+            const led = document.getElementById("ledPunto");
+            if (estado === "ABIERTO") {
+                btn.style.backgroundColor = "#1b3a24"; btn.style.borderColor = "#2ecc71"; circulo.style.left = "31px"; led.style.background = "#2ecc71";
+            } else {
+                btn.style.backgroundColor = "#3a1b1b"; btn.style.borderColor = "#ff4d4d"; circulo.style.left = "2px"; led.style.background = "#ff4d4d";
+            }
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+            actualizarInterfazSwitch(localStorage.getItem("estadoTiendaEsquinita") || "CERRADO");
+        });
+
+        function inicializarReseñasDemo() {
+            if (!localStorage.getItem("sistemaResenasEsquinita")) {
+                const demos = [
+                    { id: "rev-1", usuario: "Juan Perez", puntuacion: 5, comentario: "¡Excelente sabor y buen servicio! La hamburguesa es mi favorita.", color: "rojo" },
+                    { id: "rev-2", usuario: "Maria Lopez", puntuacion: 5, comentario: "Las salchipapas son increíbles y las cremas le dan el toque perfecto.", color: "amarillo" },
+                    { id: "rev-3", usuario: "Ana Lucia", puntuacion: 5, comentario: "Muy buena atención y el pollo super crujiente. Volveré sin duda.", color: "rojo" },
+                    { id: "rev-4", usuario: "Martin Vega", puntuacion: 5, comentario: "Me encantó el servicio de delivery, muy puntual con la entrega.", color: "amarillo" },
+                    { id: "rev-5", usuario: "Enrique Palacios", puntuacion: 5, comentario: "Increíble sabor, una maravilla en serio. Volveré a pedir mucho más.", color: "rojo" },
+                    { id: "rev-6", usuario: "Maria Fernanda", puntuacion: 5, comentario: "Me encantó el lugar, buena atención y buen ambiente, de verdad fascinante.", color: "amarillo" }
+                ];
+                localStorage.setItem("sistemaResenasEsquinita", JSON.stringify(demos));
+            }
+        }
+
+        function cargarReseñas() {
+            inicializarReseñasDemo();
+            const contenedor = document.getElementById("contenedorReseñas");
+            const listaReseñas = JSON.parse(localStorage.getItem("sistemaResenasEsquinita")) || [];
+
+            if (listaReseñas.length === 0) {
+                contenedor.innerHTML = `<div class="sin-reseñas-box"><i class="fa-solid fa-comments" style="margin-bottom:10px; display:block; font-size:24px;"></i>Aún no hay comentarios de clientes.</div>`;
+                return;
+            }
+
+            contenedor.innerHTML = "";
+            listaReseñas.forEach((item, index) => {
+                const claseColor = (index % 2 === 0) ? "card-roja" : "card-amarilla";
+                
+                let estrellasHTML = "";
+                const nota = item.puntuacion !== undefined ? item.puntuacion : 5;
+                for (let i = 0; i < 5; i++) {
+                    if (i < nota) {
+                        estrellasHTML += `<i class="fa-solid fa-star"></i>`;
+                    } else {
+                        estrellasHTML += `<i class="fa-regular fa-star"></i>`; 
+                    }
+                }
+
+                contenedor.innerHTML += `
+                    <div class="reseña-card ${claseColor}">
+                        <button class="btn-eliminar-admin" onclick="eliminarReseñaAdmin('${item.id}')" title="Eliminar reseña"><i class="fa-solid fa-xmark"></i></button>
+                        <div class="user-info-row">
+                            <div class="user-avatar-circle"><i class="fa-solid fa-user"></i></div>
+                            <div class="user-name">${item.usuario}</div>
+                        </div>
+                        <div class="stars-row">${estrellasHTML}</div>
+                        <div class="reseña-texto">"${item.comentario}"</div>
+                    </div>`;
+            });
+        }
+
+        function eliminarReseñaAdmin(id) {
+            if (confirm("¿Estás seguro de que deseas eliminar permanentemente esta reseña de la plataforma?")) {
+                let lista = JSON.parse(localStorage.getItem("sistemaResenasEsquinita")) || [];
+                lista = lista.filter(item => item.id !== id);
+                localStorage.setItem("sistemaResenasEsquinita", JSON.stringify(lista));
+                
+                cargarReseñas();
+
+                const toast = document.getElementById("toast-eliminar");
+                toast.style.display = 'block';
+                setTimeout(() => { toast.style.display = 'none'; }, 2500);
+            }
+        }
+
+        window.onload = cargarReseñas;
+    </script>
+</body>
+</html>
